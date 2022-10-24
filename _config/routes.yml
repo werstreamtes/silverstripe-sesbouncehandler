@@ -1,7 +1,7 @@
 ---
-Name: modelascontrollerroutes
+Name: sesbouncehandlermodelascontrollerroutes
 After: cms/routes#modelascontrollerroutes
 ---
-Director:
+SilverStripe\Control\Director:
   rules:
-    'ses-bounce-handler': 'SESBounceController'
+    'ses-bounce-handler': 'WSE\SESBounceHandler\Controllers\SESBounceController'

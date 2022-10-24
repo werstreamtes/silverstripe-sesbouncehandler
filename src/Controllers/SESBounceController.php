@@ -1,10 +1,19 @@
 <?php
+
+namespace WSE\SESBounceHandler\Controllers;
+
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\HTTPRequest;
+//use DataModel;
+use SilverStripe\Logging\Log;
+use SilverStripe\Security\Member;
+
 
 class SESBounceController extends Controller
 {
-    public function handleRequest(SS_HTTPRequest $request, DataModel $model)
+    public function handleRequest(HTTPRequest $request)
     {
         // request must be post:
         if (!$request->isPOST()) {
