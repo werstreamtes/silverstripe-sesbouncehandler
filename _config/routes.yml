@@ -1,0 +1,7 @@
+---
+Name: modelascontrollerroutes
+After: cms/routes#modelascontrollerroutes
+---
+Director:
+  rules:
+    'ses-bounce-handler': 'SESBounceController'
