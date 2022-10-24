@@ -2,6 +2,11 @@
     "name": "werstreamtes/ses-bounce-handler",
     "description": "amazon SES bounce handler module for SilverStripe.",
     "type": "silverstripe-module",
+    "authors": [
+        {
+            "name": "Johannes Hammersen"
+        }
+    ],
     "require": {
         "aws/aws-php-sns-message-validator": "dev-master",
         "silverstripe/framework": "^3.3"
