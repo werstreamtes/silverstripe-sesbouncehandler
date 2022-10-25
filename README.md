@@ -1,4 +1,4 @@
-# ses-bouncehandler-module
+# silverstripe-sesbouncehandler
 test the module:
 ```sh
 curl -X POST \
