@@ -1,6 +1,6 @@
 {
-    "name": "werstreamtes/ses-bounce-handler",
-    "description": "amazon SES bounce handler module for SilverStripe.",
+    "name": "werstreamtes/silverstripe-sesbouncehandler",
+    "description": "amazon SES Bounce Handler Module for SilverStripe.",
     "type": "silverstripe-module",
     "authors": [
         {
