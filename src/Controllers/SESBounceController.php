@@ -4,14 +4,25 @@ namespace WSE\SESBounceHandler\Controllers;
 
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
+use Psr\Log\LoggerInterface;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
-//use DataModel;
 use SilverStripe\Security\Member;
-
 
 class SESBounceController extends Controller
 {
+
+    private static $dependencies = [
+        'Logger' => '%$' . LoggerInterface::class,
+    ];
+
+    /**
+     * This will be set automatically, as long as MyController is instantiated via Injector
+     *
+     * @var LoggerInterface
+     */
+    protected $logger;
+
     public function handleRequest(HTTPRequest $request)
     {
         // request must be post:
@@ -20,12 +31,12 @@ class SESBounceController extends Controller
         }
 
         $message = Message::fromRawPostData();
-        \Log::get("ses-bounce")->info("Message received", $message->toArray());
+        $this->logger->info("Message received", $message->toArray());
 
         // Validate the message
         $validator = new MessageValidator();
         if (!$validator->isValid($message)) {
-            \Log::get("ses-bounce")->warning("Message is not valid", $message->toArray());
+            $this->logger->warning("Message is not valid", $message->toArray());
             return $this->httpError(400, "Message could not be validated");
         }
 
@@ -33,7 +44,7 @@ class SESBounceController extends Controller
         $messageType = $message['Type'];
         $messageHandler = 'handle' . $messageType;
         if (!$this->hasMethod($messageHandler)) {
-            \Log::get("ses-bounce")->warning("No handler found for message type", $message->toArray());
+            $this->logger->warning("No handler found for message type", $message->toArray());
             return $this->httpError(404, "No handler found for message type");
         }
 
@@ -57,7 +68,7 @@ class SESBounceController extends Controller
                 // gmx and maybe others trigger "bounceType":"Transient","bounceSubType":"General" for whatever reasons.
                 // and AWS states that Autoresponder can trigger it. So, we ignore it for now:
                 if ($sesMessage->bounce->bounceType == 'Transient' && $sesMessage->bounce->bounceSubType == 'General') {
-                    \Log::get("ses-bounce")->debug("Ignoring Bounce/Transient/General.", $message->toArray());
+                    $this->logger->debug("Ignoring Bounce/Transient/General.", $message->toArray());
                     return 'ok';
                 }
 
@@ -69,7 +80,7 @@ class SESBounceController extends Controller
                 break;
             default:
                 // not good, how did we end up here?
-                \Log::get("ses-bounce")->warning("Unknown notificationType found in message", $message->toArray());
+                $this->logger->warning("Unknown notificationType found in message", $message->toArray());
                 return $this->httpError(404, "Unknown notificationType");
         }
 
@@ -85,7 +96,7 @@ class SESBounceController extends Controller
                 if (empty($member->EMailVerification)) {
                     $member->setNewEMailVerificationValue();
                     $member->write();
-                    \Log::get("ses-bounce")->debug(
+                    $this->logger->debug(
                         "Set new EMailVerification Value for Member",
                         ['MemberID' => $member->ID, "Address" => $emailAddress]
                     );
