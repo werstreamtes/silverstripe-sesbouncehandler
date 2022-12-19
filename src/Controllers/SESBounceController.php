@@ -17,7 +17,8 @@ class SESBounceController extends Controller
      * @return LoggerInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function logger() {
+    public function logger(): LoggerInterface
+    {
         return Injector::inst()->get(LoggerInterface::class);
     }
 
