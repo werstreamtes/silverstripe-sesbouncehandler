@@ -22,6 +22,10 @@ class SESBounceController extends Controller
         return Injector::inst()->get(LoggerInterface::class);
     }
 
+    /**
+     * @param HTTPRequest $request
+     * @return mixed
+     */
     public function handleRequest(HTTPRequest $request)
     {
         // request must be post:
@@ -47,7 +51,11 @@ class SESBounceController extends Controller
             return $this->httpError(404, "No handler found for message type");
         }
 
-        return $this->$messageHandler($message);
+        $response = $this->$messageHandler($message);
+        $this->prepareResponse($response);
+
+        return $this->getResponse();
+
     }
 
     private function handleSubscriptionConfirmation(Message $message)
