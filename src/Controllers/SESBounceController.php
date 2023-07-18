@@ -79,6 +79,10 @@ class SESBounceController extends Controller
                     return 'ok';
                 }
 
+                if ($sesMessage->notificationType === 'Complaint') {
+                    $this->logger()->warning("Complaint detected: ", $message->toArray());
+                }
+
                 return $this->handleBounce($sesMessage->mail);
                 break;
             case 'Delivery':
