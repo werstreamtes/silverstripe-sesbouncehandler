@@ -7,6 +7,7 @@ use Aws\Sns\MessageValidator;
 use Psr\Log\LoggerInterface;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Security\Member;
 
@@ -24,9 +25,9 @@ class SESBounceController extends Controller
 
     /**
      * @param HTTPRequest $request
-     * @return mixed
+     * @return HTTPResponse
      */
-    public function handleRequest(HTTPRequest $request)
+    public function handleRequest(HTTPRequest $request): HTTPResponse
     {
         // request must be post:
         if (!$request->isPOST()) {
