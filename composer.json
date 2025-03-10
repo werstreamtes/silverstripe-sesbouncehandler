@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "aws/aws-php-sns-message-validator": "dev-master",
+        "aws/aws-php-sns-message-validator": ">=1.9.1",
         "silverstripe/framework": ">=4.10"
     },
     "autoload": {
