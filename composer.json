@@ -1,14 +1,22 @@
 {
     "name": "werstreamtes/silverstripe-sesbouncehandler",
     "description": "amazon SES Bounce Handler Module for SilverStripe.",
-    "type": "silverstripe-module",
+    "type": "silverstripe-vendormodule",
     "authors": [
         {
             "name": "Johannes Hammersen"
+        },
+        {
+            "name": "Niels Killius"
         }
     ],
     "require": {
         "aws/aws-php-sns-message-validator": "dev-master",
-        "silverstripe/framework": "^3.3"
+        "silverstripe/framework": ">=4.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "WSE\\SESBounceHandler\\": "src/"
+        }
     }
 }
